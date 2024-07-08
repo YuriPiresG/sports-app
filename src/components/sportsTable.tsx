@@ -1,13 +1,11 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ButtonStyled } from "./buttonStyled";
 import CustomDialog from "./customDialog";
 
 export type Sport = {
@@ -23,7 +21,6 @@ interface SportsTableProps {
 }
 
 export const SportsTable = ({ sports }: SportsTableProps) => {
-  console.log(sports);
   return (
     <Table>
       <TableHeader>
@@ -51,7 +48,11 @@ export const SportsTable = ({ sports }: SportsTableProps) => {
             >
               <TableCell className="font-medium">{sport.name}</TableCell>
               <TableCell>{sport.type}</TableCell>
-              <TableCell>{sport.description}</TableCell>
+              <TableCell>
+                {sport.description.length > 100
+                  ? sport.description.substring(0, 100) + "..."
+                  : sport.description}
+              </TableCell>
               <TableCell className="text-right">
                 <CustomDialog
                   id={sport.id}

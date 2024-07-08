@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { createSport } from "../../actions/actions";
+import { createSport, updateSport } from "../../actions/actions";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
@@ -15,7 +15,13 @@ export const schema = z.object({
   rules: z.string().optional(),
 });
 
-export const DialogForm = ({ onClose }: { onClose: () => void }) => {
+interface DialogFormProps {
+  type: "create" | "update";
+  onClose: () => void;
+  id?: string;
+}
+
+export const DialogForm = ({ onClose, type, id }: DialogFormProps) => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -28,7 +34,18 @@ export const DialogForm = ({ onClose }: { onClose: () => void }) => {
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
     try {
-      createSport(values);
+      switch (type) {
+        case "update":
+          if (!id) return;
+          updateSport(id, values);
+          break;
+        case "create":
+          createSport(values);
+          break;
+
+        default:
+          break;
+      }
       onClose();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -43,7 +60,7 @@ export const DialogForm = ({ onClose }: { onClose: () => void }) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome *</FormLabel>
+              <FormLabel>{type == "create" ? "Nome *" : "Nome"}</FormLabel>
               <FormControl>
                 <Input placeholder="Nome da atividade física..." {...field} />
               </FormControl>
@@ -55,7 +72,9 @@ export const DialogForm = ({ onClose }: { onClose: () => void }) => {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descrição *</FormLabel>
+              <FormLabel>
+                {type == "create" ? "Descrição *" : "Descrição"}
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Inclua uma descrição para a atividade..."
@@ -70,7 +89,7 @@ export const DialogForm = ({ onClose }: { onClose: () => void }) => {
           name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tipo *</FormLabel>
+              <FormLabel>{type == "create" ? "Tipo *" : "Tipo"}</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Natação, Maratona, Triathlon..."

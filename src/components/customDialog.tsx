@@ -65,8 +65,9 @@ const CustomDialog = ({ title, color, text, type, id }: CustomDialogProps) => {
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         {message && <DialogDescription>{message}</DialogDescription>}
-        {type === ("create" || "update") && (
-          <DialogForm onClose={handleClose} />
+        {type === "create" && <DialogForm type={type} onClose={handleClose} />}
+        {type === "update" && (
+          <DialogForm id={id} type={type} onClose={handleClose} />
         )}
         {type === "details" && <DialogDetails onClose={handleClose} id={id} />}
         {type === "delete" && <DialogDelete id={id} onClose={handleClose} />}

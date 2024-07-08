@@ -23,6 +23,23 @@ export const createSport = async (formData: z.infer<typeof schema>) => {
   }
   return response.json();
 };
+export const updateSport = async (
+  id: string,
+  formData: z.infer<typeof schema>
+) => {
+  const response = await fetch(API + `/sport/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+  if (!response.ok) {
+    throw new Error(id);
+  }
+  revalidateTag("/sports");
+  return response.json();
+};
 
 export const getSports = async () => {
   const response = await fetch(API + "/sport", {

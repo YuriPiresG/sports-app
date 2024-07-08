@@ -26,15 +26,26 @@ export const DialogDetails = ({ id }: DialogDetailsProps) => {
   if (!sports) return null;
 
   return (
-    <div className="grid grid-cols-2 gap-2 bg-white p-4">
+    <div className="grid grid-cols-2 gap-2 bg-white p-4 text-center justify-center items-center">
       <h1 className="text-2xl font-bold mb-4">Nome:</h1>
       <p className="mb-4">{sports.name}</p>
-      <h1 className="text-2xl font-bold mb-4">Descrição:</h1>
-      <p className="mb-4">{sports.description}</p>
+      <hr className="col-span-2" />
+
+      <h1 className="text-2xl font-bold mb-4">Descrição: </h1>
+      <p className="mb-4">
+        {sports.description.length > 100
+          ? sports.description.substring(0, 100) + "..."
+          : sports.description}
+      </p>
+      <hr className="col-span-2" />
+
       <h1 className="text-2xl font-bold mb-4">Tipo:</h1>
       <p className="mb-4">{sports.type}</p>
+      <hr className="col-span-2" />
       <h1 className="text-2xl font-bold mb-4">Regras:</h1>
-      <p className="mb-4">{sports.rules ? sports.rules : "Sem regras"}</p>
+      <p className="mb-4">
+        {sports.rules ? sports.rules.substring(0, 100) : "Sem regras"}
+      </p>
       <CustomDialog
         id={sports.id}
         isOpen={true}
@@ -47,7 +58,7 @@ export const DialogDetails = ({ id }: DialogDetailsProps) => {
         id={sports.id}
         isOpen={true}
         type="update"
-        title="Deletar Atividade Física"
+        title="Atualizar Atividade Física"
         color="yellow"
         text="Atualizar Atividade Física"
       />

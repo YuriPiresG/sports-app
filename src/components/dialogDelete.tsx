@@ -11,7 +11,6 @@ interface DialogDetailsProps {
 
 export const DialogDelete = ({ onClose, id }: DialogDetailsProps) => {
   const handleDelete = (id: string | undefined) => {
-    console.log("Deleting sport with id: ", id);
     if (!id) return;
     deleteSportById(id);
     onClose();
