@@ -2,7 +2,7 @@
 
 import { schema } from "@/components/dialogForm";
 import { Sport } from "@/components/sportsTable";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const API = process.env.API_CONNECTION;

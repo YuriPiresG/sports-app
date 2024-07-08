@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getSportById } from "../../actions/actions";
-import { Sport } from "./sportsTable";
-import { ButtonStyled } from "./buttonStyled";
 import CustomDialog from "./customDialog";
+import { Sport } from "./sportsTable";
 
 interface DialogDetailsProps {
   onClose: () => void;
