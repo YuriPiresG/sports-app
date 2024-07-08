@@ -8,8 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ButtonStyled } from "./buttonStyled";
+import CustomDialog from "./customDialog";
 
 export type Sport = {
+  id: string;
   name: string;
   description: string;
   rules: string;
@@ -17,7 +19,7 @@ export type Sport = {
 };
 
 interface SportsTableProps {
-  sports: Sport[] | null;
+  sports: Sport[] | undefined;
 }
 
 export const SportsTable = ({ sports }: SportsTableProps) => {
@@ -51,7 +53,14 @@ export const SportsTable = ({ sports }: SportsTableProps) => {
               <TableCell>{sport.type}</TableCell>
               <TableCell>{sport.description}</TableCell>
               <TableCell className="text-right">
-                <ButtonStyled color="green" text="Ver detalhes" />
+                <CustomDialog
+                  id={sport.id}
+                  isOpen={true}
+                  type="details"
+                  title="Ver detalhes"
+                  color="green"
+                  text="Ver detalhes"
+                />
               </TableCell>
             </TableRow>
           ))

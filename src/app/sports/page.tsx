@@ -1,11 +1,10 @@
-"use client";
 import CustomDialog from "@/components/customDialog";
 import { SportsTable } from "@/components/sportsTable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useFetchSports } from "../../../hooks/useFetchSports";
+import { getSports } from "../../../actions/actions";
 
-export default function SportsDash() {
-  const { sports, isLoading } = useFetchSports();
+export default async function SportsDash() {
+  const sports = await getSports();
 
   return (
     <div className="flex flex-col items-center h-screen w-screen">
