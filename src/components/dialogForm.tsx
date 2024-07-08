@@ -3,12 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { createSport } from "../../actions/actions";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
-import { revalidatePath } from "next/cache";
 
-const schema = z.object({
+export const schema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   description: z.string().min(1, "Descrição é obrigatória"),
   type: z.string().min(1, "Tipo é obrigatório"),
@@ -28,19 +28,8 @@ export const DialogForm = ({ onClose }: { onClose: () => void }) => {
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
     try {
-      const response = await fetch("http://localhost:8080/sport", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      createSport(values);
       onClose();
-      revalidatePath("/sports");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }

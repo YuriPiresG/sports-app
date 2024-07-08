@@ -10,14 +10,16 @@ import {
 import { ButtonStyled } from "./buttonStyled";
 import { DialogForm } from "./dialogForm";
 import { useState } from "react";
-
+import { DialogDetails } from "./dialogDetails";
+import { DialogDelete } from "./dialogDelete";
 
 interface CustomDialogProps {
   isOpen: boolean;
-  type: "create" | "update" | "delete" | "info";
+  type: "create" | "update" | "delete" | "details";
   title: string;
-  color: string;
+  color: "blue" | "red" | "green" | "yellow";
   text: string;
+  id?: string;
 }
 
 function description(type: CustomDialogProps["type"]) {
@@ -35,17 +37,15 @@ function description(type: CustomDialogProps["type"]) {
       return {
         message: "Tem certeza que deseja excluir a atividade física?",
       };
-    case "info":
+    case "details":
       return {
         message: "Detalhes da atividade física.",
       };
   }
 }
 
-const CustomDialog = ({ title, color, text, type }: CustomDialogProps) => {
-
+const CustomDialog = ({ title, color, text, type, id }: CustomDialogProps) => {
   const [open, setOpen] = useState(false);
-
 
   const handleClose = () => {
     setOpen(false);
@@ -65,9 +65,11 @@ const CustomDialog = ({ title, color, text, type }: CustomDialogProps) => {
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         {message && <DialogDescription>{message}</DialogDescription>}
-        {type === "create" && (
+        {type === ("create" || "update") && (
           <DialogForm onClose={handleClose} />
         )}
+        {type === "details" && <DialogDetails onClose={handleClose} id={id} />}
+        {type === "delete" && <DialogDelete id={id} onClose={handleClose} />}
       </DialogContent>
     </Dialog>
   );
